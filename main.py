@@ -156,7 +156,7 @@ async def change_racista(_, message):
 @app.on_message(filters.command(['r', 'racista']) & (filters.chat(["me", -1001874611480]) | filters.private))
 @stfu_enabled
 async def racista(_, message):
-    await message.reply_to_message.reply("racista")
+    await app.send_message(message.chat.id, "racista", reply_to_message_id=message.reply_to_message_id)
 
 
 @app.on_message(filters.text | filters.chat([-1001874611480]))
