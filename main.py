@@ -42,6 +42,7 @@ version_callback_filter = filters.create(ver)
 async def stfu_func(_, __, query):
     return query.data == "stfu_enable"
 
+
 stfu_callback_filter = filters.create(stfu_func)
 
 
@@ -79,10 +80,10 @@ async def stfu_callback_handler(_, query):
 @app.on_callback_query(version_callback_filter)
 @stfu_enabled
 async def version_handler(_, query):
-    query.message.edit(f"**Gustavotron - Free**\n\n__Version__: {version}\n__Gustavo API Level__: {gus_api_ver}"
-                        f"\n__Fela API Level__: {fela_ver}\n\n"
-                        f"Licensed to Gustavo Fring (@NowPremiumUser)\n__For legal information and privacy policy "
-                        f"contact @OnetimeUsername__")
+    await query.message.edit(f"**Gustavotron - Free**\n\n__Version__: {version}\n__Gustavo API Level__: {gus_api_ver}"
+                             f"\n__Fela API Level__: {fela_ver}\n\n"
+                             f"Licensed to Gustavo Fring (@NowPremiumUser)\n__For legal information and privacy policy "
+                             f"contact @OnetimeUsername__")
 
 
 @app.on_callback_query(static_data_filter)
