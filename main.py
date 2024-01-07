@@ -2,12 +2,12 @@ import math
 import time
 from pyrogram import Client, filters
 import random
+from keyboards import INLINE_KEYBOARD, REPLY_KEYBOARD
 from stfu import get_stfu_mode, set_stfu_mode, stfu_enabled
 from dotenv import load_dotenv
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from exceptions import EnvironmentFileError
 import os
-
 
 load_dotenv()
 
@@ -28,7 +28,21 @@ fela_ver = '5.3'
 async def func(_, __, query):
     return query.data == "data"
 
+
 static_data_filter = filters.create(func)
+
+
+async def ver(_, __, query):
+    return query.data == "version"
+
+
+version_callback_filter = filters.create(ver)
+
+
+async def stfu_func(_, __, query):
+    return query.data == "stfu_enable"
+
+stfu_callback_filer = filters.create(stfu_func)
 
 
 @app.on_message(filters.command(['stfu']))
@@ -52,6 +66,25 @@ async def get_chat_members_mention_string(chat_id):
     return mentions
 
 
+@app.on_callback_query()
+@stfu_enabled
+async def stfu_callback_handler(_, query):
+    set_stfu_mode()
+    if get_stfu_mode():
+        await query.message.edit("✅ STFU enabled!")
+    else:
+        await query.message.edit("❌ STFU Disabled")
+
+
+@app.on_callback_query(version_callback_filter)
+@stfu_enabled
+async def version_handler(_, query):
+    query.message.edit(f"**Gustavotron - Free**\n\n__Version__: {version}\n__Gustavo API Level__: {gus_api_ver}"
+                        f"\n__Fela API Level__: {fela_ver}\n\n"
+                        f"Licensed to Gustavo Fring (@NowPremiumUser)\n__For legal information and privacy policy "
+                        f"contact @OnetimeUsername__")
+
+
 @app.on_callback_query(static_data_filter)
 @stfu_enabled
 async def button_press(_, query):
@@ -59,7 +92,7 @@ async def button_press(_, query):
     mentions = await get_chat_members_mention_string(query.message.chat.id)
     k = 0
     for i in range(math.ceil(len(mentions) / 5)):
-        for person in mentions[k:k+5]:
+        for person in mentions[k:k + 5]:
             text = text + person.mention(style="md") + ' '
         time.sleep(3.0)
         await app.send_message(query.message.chat.id, text)
@@ -72,30 +105,7 @@ async def button_press(_, query):
 async def keyboard(_, message):
     await message.reply(
         "**At your service!**\nWhat do you wanna do? :)",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [  # First row
-                    InlineKeyboardButton(  # Generates a callback query when pressed
-                        "Mention All",
-                        callback_data="data"
-                    ),
-                    # InlineKeyboardButton(  # Opens a web URL
-                    #     "URL",
-                    #     url="https://docs.pyrogram.org"
-                    # ),
-                ],
-                # [  # Second row
-                #     InlineKeyboardButton(  # Opens the inline interface
-                #         "Choose chat",
-                #         switch_inline_query="pyrogram"
-                #     ),
-                #     InlineKeyboardButton(  # Opens the inline interface in the current chat
-                #         "Inline here",
-                #         switch_inline_query_current_chat="pyrogram"
-                #     )
-                # ]
-            ]
-        )
+        reply_markup=INLINE_KEYBOARD
     )
 
 
@@ -104,15 +114,8 @@ async def keyboard(_, message):
 async def keyboard(_, message):
     await message.reply(
         "This is a ReplyKeyboardMarkup example",
-        reply_markup=ReplyKeyboardMarkup(
-            [
-                ["A", "B", "C", "D"],  # First row
-                ["E", "F", "G"],  # Second row
-                ["H", "I"],  # Third row
-                ["J"]  # Fourth row
-            ],
-            resize_keyboard=True  # Make the keyboard smaller
-        )
+        reply_markup=REPLY_KEYBOARD,
+        resize_keyboard=True  # Make the keyboard smaller
     )
 
 
