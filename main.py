@@ -42,7 +42,7 @@ version_callback_filter = filters.create(ver)
 async def stfu_func(_, __, query):
     return query.data == "stfu_enable"
 
-stfu_callback_filer = filters.create(stfu_func)
+stfu_callback_filter = filters.create(stfu_func)
 
 
 @app.on_message(filters.command(['stfu']))
@@ -66,7 +66,7 @@ async def get_chat_members_mention_string(chat_id):
     return mentions
 
 
-@app.on_callback_query()
+@app.on_callback_query(stfu_callback_filter)
 @stfu_enabled
 async def stfu_callback_handler(_, query):
     set_stfu_mode()
