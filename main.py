@@ -5,7 +5,6 @@ import random
 from keyboards import INLINE_KEYBOARD, REPLY_KEYBOARD
 from stfu import get_stfu_mode, set_stfu_mode, stfu_enabled
 from dotenv import load_dotenv
-from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from exceptions import EnvironmentFileError
 import os
 
@@ -22,7 +21,7 @@ app = Client("my_account", api_id=api_id, api_hash=api_hash)
 racista_ratio = 1
 version = '2.1'
 gus_api_ver = '1.2'
-fela_ver = '5.3'
+fela_ver = '5.8'
 
 
 async def func(_, __, query):
@@ -125,7 +124,11 @@ async def keyboard(_, message):
 async def racista(_, message):
     insults = ["you incompetent fuck", "lmao you gai", "fuck off", "bitch", "dumbass TSF fuck",
                "yo mama so fat she can eat all unigram bugs and still be hungry", "candy ass madafakas",
-               "shut your face you non-dev scumbag", "fuck you, lucas and every user ever", "lol you so stoooopid"]
+               "shut your face you non-dev scumbag", "fuck you, lucas and every user ever", "lol you so stoooopid"
+               "joe mama sooooo gai", "dima has more hair than joe mama", "hoe",
+               "if you were italian your name would be Retardo", "suck my Qt dick",
+               "here's a box of boosts you poor-ass bitch", "TSF stands for True Suckers For devs",
+               "you're on the latest beta. I'm on your gal"]
     await message.reply(insults[random.randint(0, len(insults))])
 
 
