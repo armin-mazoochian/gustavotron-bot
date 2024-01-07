@@ -3,11 +3,19 @@ import time
 from pyrogram import Client, filters
 import random
 from stfu import get_stfu_mode, set_stfu_mode, stfu_enabled
-
+from dotenv import load_dotenv
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from exceptions import EnvironmentFileError
+import os
 
-api_id = 2743940
-api_hash = "23af8e03acf42c02be09bd7e0fe40057"
+
+load_dotenv()
+
+api_id: int = int(os.environ.get("API_ID", None))
+api_hash: str = os.environ.get("API_HASH")
+
+if not api_id or api_hash is None:
+    raise EnvironmentFileError
 
 app = Client("my_account", api_id=api_id, api_hash=api_hash)
 
